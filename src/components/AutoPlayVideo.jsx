@@ -1,7 +1,17 @@
 import { useEffect, useRef } from "react"
 
+function prepareVideo(el) {
+  el.muted = true
+  el.defaultMuted = true
+  el.playsInline = true
+  el.setAttribute("playsinline", "")
+  el.setAttribute("webkit-playsinline", "")
+  el.setAttribute("muted", "")
+}
+
 export default function AutoPlayVideo({
   src,
+  poster,
   className = "",
   "aria-label": ariaLabel,
 }) {
@@ -11,19 +21,36 @@ export default function AutoPlayVideo({
     const video = ref.current
     if (!video) return
 
+    prepareVideo(video)
+
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    if (reduced) return
+
+    let cancelled = false
+
+    const play = () => {
+      if (cancelled) return
+      prepareVideo(video)
+      video.play().catch(() => {})
+    }
+
     const io = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          video.play().catch(() => {})
-        } else {
-          video.pause()
-        }
+        if (entry.isIntersecting) play()
+        else video.pause()
       },
-      { threshold: 0.2, rootMargin: "120px 0px" }
+      { threshold: 0.25, rootMargin: "80px 0px" }
     )
 
     io.observe(video)
-    return () => io.disconnect()
+    video.addEventListener("canplay", play)
+    play()
+
+    return () => {
+      cancelled = true
+      io.disconnect()
+      video.removeEventListener("canplay", play)
+    }
   }, [src])
 
   return (
@@ -31,10 +58,11 @@ export default function AutoPlayVideo({
       ref={ref}
       className={className}
       src={src}
+      poster={poster}
       muted
       loop
       playsInline
-      preload="none"
+      preload="metadata"
       aria-label={ariaLabel}
     />
   )

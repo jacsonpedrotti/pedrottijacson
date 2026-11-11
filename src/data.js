@@ -81,7 +81,8 @@ export const promise = {
   title: "Veja como transformo ideias em produtos digitais",
   subtitle: hero.descriptor,
   text: hero.promise,
-  video: "/video-4.mp4",
+  video: "/video-2.mp4",
+  videoPoster: "/video-work-poster.jpg",
 }
 
 export const support = {
@@ -155,10 +156,28 @@ export const projects = [
     url: "https://vederefilms.com.br",
   },
   {
-    title: "Curso de Aplicação de Película Vedere",
-    tags: "Landing Page • Marketing • UI",
-    desc: "Landing page e estrutura de divulgação para curso com foco em conversão e clareza de mensagem.",
-    url: "https://cursodeaplicacaodepeliculavedere.com",
+    title: "Apex Calibra",
+    tags: "Performance • Website • Conversão",
+    desc: "Site para calibração automotiva com telemetria, busca de aplicação e jornada clara até o contato.",
+    url: "https://apex-calibra.vercel.app/",
+  },
+  {
+    title: "Barbearia Lâmina",
+    tags: "Barbearia • Agenda • UI",
+    desc: "Presença digital da barbearia com serviços, preços e agendamento online para marcar horário sem fricção.",
+    url: "https://barbearia-lamina.vercel.app/",
+  },
+  {
+    title: "J.V Tech",
+    tags: "Assistência • Website • Conversão",
+    desc: "Site institucional para assistência técnica, com serviços, processo em três passos e captura de orçamento.",
+    url: "https://jv-tau.vercel.app/",
+  },
+  {
+    title: "VUGTA Importações",
+    tags: "E-commerce • Catálogo • UX",
+    desc: "Vitrine de importação e comércio global, com catálogo, página de produto e fluxo de compra.",
+    url: "https://vugta-importacoes.vercel.app/",
   },
   {
     title: "Vedere Company",
@@ -203,9 +222,9 @@ export const testimonials = [
     text: "Transmitiu credibilidade desde o primeiro acesso. Clareza nos serviços e foco em conversão — exatamente o que precisávamos.",
   },
   {
-    name: "Cliente Curso Vedere",
-    handle: "Landing Page",
-    text: "A landing page converte de verdade. Estrutura clara, proposta de valor forte e design que guia o visitante até a ação.",
+    name: "Cliente Apex",
+    handle: "Apex Calibra",
+    text: "O site explica o serviço com clareza — telemetria, aplicação e um caminho direto para o contato. Ficou à altura da oficina.",
   },
 ]
 

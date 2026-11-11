@@ -11,6 +11,10 @@ function hostnameOf(url) {
   }
 }
 
+const STATIC_PREVIEWS = {
+  "apex-calibra.vercel.app": "/previews/apex-calibra.jpg",
+}
+
 export default function ProjectLivePreview({ url, index, tags }) {
   const rootRef = useRef(null)
   const stageRef = useRef(null)
@@ -70,6 +74,7 @@ export default function ProjectLivePreview({ url, index, tags }) {
     return () => window.clearTimeout(failTimer)
   }, [active, url, loaded])
 
+  const staticPreview = STATIC_PREVIEWS[hostnameOf(url || "")]
   const showFallback = !url || failed
 
   return (
@@ -84,7 +89,7 @@ export default function ProjectLivePreview({ url, index, tags }) {
         <span className="ml-2 truncate rounded-md bg-white/10 px-2 py-0.5 text-[10px] text-white/50">
           {url ? hostnameOf(url) : "preview"}
         </span>
-        {active && !loaded && !failed && (
+        {active && !loaded && !failed && !staticPreview && (
           <span className="ml-auto text-[10px] font-medium text-brand-300">
             carregando…
           </span>
@@ -106,7 +111,27 @@ export default function ProjectLivePreview({ url, index, tags }) {
             {!loaded && (
               <div className="absolute inset-0 z-[1] animate-pulse bg-gradient-to-br from-ink-2 via-ink-3 to-ink-2" />
             )}
-            {active && (
+            {active && staticPreview && (
+              <div
+                className={`absolute left-0 top-0 origin-top-left transition-opacity duration-500 ease-out ${
+                  loaded ? "opacity-100" : "opacity-0"
+                }`}
+                style={{
+                  width: PREVIEW_WIDTH,
+                  height: PREVIEW_HEIGHT,
+                  transform: `scale(${scale})`,
+                }}
+              >
+                <img
+                  src={staticPreview}
+                  alt=""
+                  className="h-full w-full object-cover object-top"
+                  onLoad={() => setLoaded(true)}
+                  onError={() => setFailed(true)}
+                />
+              </div>
+            )}
+            {active && !staticPreview && (
               <div
                 className={`absolute left-0 top-0 origin-top-left transition-opacity duration-500 ease-out ${
                   loaded ? "opacity-100" : "opacity-0"
